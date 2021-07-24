@@ -4,10 +4,9 @@ from __future__ import annotations
 import copy
 from typing import List
 
-from dlgo.gotypes import Player, Point  # PYTHON IMPORTS SUCKS
 from dlgo import zobrist
-
-
+from dlgo.gotypes import Player, Point  # PYTHON IMPORTS SUCKS
+from dlgo.scoring import compute_game_result
 
 
 class Move():
@@ -255,6 +254,29 @@ class GameState():
             not self.is_move_self_capture(self.next_player, move) and
             not self.does_move_violate_ko(self.next_player, move)
         )
+    
+    # copied from github. not in the book.
+    def legal_moves(self):
+        moves = []
+        for row in range(1, self.board.num_rows + 1):
+            for col in range(1, self.board.num_cols + 1):
+                move = Move.play(Point(row, col))
+                if self.is_valid_move(move):
+                    moves.append(move)
+        # These two moves are always legal.
+        moves.append(Move.pass_turn())
+        moves.append(Move.resign())
+
+        return moves
+
+    # copied from github. not in the book.
+    def winner(self):
+        if not self.is_over():
+            return None
+        if self.last_move.is_resign:
+            return self.next_player
+        game_result = compute_game_result(self)
+        return game_result.winner
 
 # 3.3 게임 종료
 # 집 = 모든 직선 면의 점과 최소 네 대각선 중 3개 이상의 접한 점이 본인 색의 돌로 채워진 빈 점.

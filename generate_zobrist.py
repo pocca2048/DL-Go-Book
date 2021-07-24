@@ -15,7 +15,7 @@ table = {}
 empty_board = 0
 for row in range(1, 20):
     for col in range(1, 20):
-        for state in (Player.black, Player.white):
+        for state in (Player.black, Player.white, None): # 말도 없이 책이랑 다르게 하네..
             code = random.randint(0, MAX63)
             table[Point(row, col), state] = code
 
