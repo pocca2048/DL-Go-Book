@@ -1,21 +1,21 @@
-import os
 import glob
-import os.path
-import tarfile
 import gzip
-import shutil
-import numpy as np
 import multiprocessing
+import os
+import os.path
+import shutil
+import tarfile
 from os import sys
-from keras.utils import to_categorical
 
-from dlgo.gosgf import Sgf_game
-from dlgo.goboard_fast import Board, GameState, Move
-from dlgo.gotypes import Player, Point
+import numpy as np
+from dlgo.data.generator import DataGenerator
 from dlgo.data.index_processor import KGSIndex
 from dlgo.data.sampling import Sampler
-from dlgo.data.generator import DataGenerator
 from dlgo.encoders.base import get_encoder_by_name
+from dlgo.goboard_fast import Board, GameState, Move
+from dlgo.gosgf import Sgf_game
+from dlgo.gotypes import Player, Point
+from tensorflow.keras.utils import to_categorical
 
 
 def worker(jobinfo):
@@ -27,6 +27,10 @@ def worker(jobinfo):
 
 
 class GoDataProcessor:
+    """
+    warning: when calling python multiprocessing in Windows, must be in if __name__ == '__main__'
+    https://stackoverflow.com/questions/18204782/runtimeerror-on-windows-trying-python-multiprocessing
+    """
     def __init__(self, encoder='simple', data_directory='data'):
         self.encoder_string = encoder
         self.encoder = get_encoder_by_name(encoder, 19)

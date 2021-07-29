@@ -1,4 +1,4 @@
-from dlgo.goboard import GameState
+from dlgo.goboard_fast import GameState
 from dlgo.gotypes import Point
 
 class Encoder:
