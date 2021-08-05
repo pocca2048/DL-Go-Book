@@ -3,3 +3,4 @@ __pycache__
 *.html
 *.npy
 *.tar
+*.hdf5
