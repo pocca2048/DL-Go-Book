@@ -1,13 +1,15 @@
-from keras.models import Sequential
 import numpy as np
-from keras import backend as K
-from tensorflow.keras.optimizers import SGD
 
+from keras import backend as K
+from keras.models import Sequential
+from keras.optimizer_v1 import SGD
+
+
+
+from dlgo import encoders, goboard, kerasutil
 from dlgo.agent.base import Agent
 from dlgo.agent.helpers import is_point_an_eye
-from dlgo import encoders
-from dlgo import goboard
-from dlgo import kerasutil
+
 
 class PolicyAgent(Agent):
     """An agent that uses a deep policy network to select moves."""
@@ -67,6 +69,21 @@ class PolicyAgent(Agent):
         # No legal, non-self-destructive moves less.
         return goboard.Move.pass_turn()
 
+    def train(self, experience, lr, clipnorm, batch_size):
+        self._model.compile(
+            loss='categorical_crossentropy',
+            optimizer=SGD(lr=lr, clipnorm=clipnorm))
+
+        target_vectors = prepare_experience_data(
+            experience,
+            self._encoder.board_width,
+            self._encoder.board_height)
+
+        self._model.fit(
+            experience.states, target_vectors,
+            batch_size=batch_size,
+            epochs=1)
+
 
 def load_policy_agent(h5file):
     model = kerasutil.load_model_from_hdf5_group(
@@ -81,3 +98,12 @@ def load_policy_agent(h5file):
         encoder_name,
         (board_width, board_height))
     return PolicyAgent(model, encoder)
+
+def prepare_experience_data(experience, board_width, board_height):
+    experience_size = experience.actions.shape[0]
+    target_vectors = np.zeros((experience_size, board_width * board_height))
+    for i in range(experience_size):
+        action = experience.actions[i]
+        reward = experience.rewards[i]
+        target_vectors[i][action] = reward
+    return target_vectors
