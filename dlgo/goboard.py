@@ -256,7 +256,7 @@ class GameState():
         )
     
     # copied from github. not in the book.
-    def legal_moves(self):
+    def legal_moves(self) -> List[Move]:
         moves = []
         for row in range(1, self.board.num_rows + 1):
             for col in range(1, self.board.num_cols + 1):
