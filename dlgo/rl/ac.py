@@ -32,7 +32,7 @@ class ACAgent(Agent):
         board_tensor = self.encoder.encode(game_state)
         X = np.array([board_tensor])
 
-        actions, values = self.model.predict(X) # Q(s, a)와 V(s)를 예측
+        actions, values = self.model.predict(X) # policy (이기는 player가 둘 수) 와 value V(s)를 예측
         # pdb.set_trace()
         move_probs = actions[0] # actions.shape == (1, game_length)
         estimated_value = values[0][0] # values.shape == (1, 1)
