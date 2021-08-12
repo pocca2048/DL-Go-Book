@@ -137,7 +137,7 @@ class Board():
                 if neighbor_string not in adjacent_opposite_color:
                     adjacent_opposite_color.append(neighbor_string)
         new_string = GoString(player, [point], liberties)
-# tag::apply_zobrist[]
+    # tag::apply_zobrist[]
         # 1. Merge any adjacent strings of the same color.
         for same_color_string in adjacent_same_color:
             new_string = new_string.merged_with(same_color_string)
@@ -147,7 +147,7 @@ class Board():
         self._hash ^= zobrist.HASH_CODE[point, None]
         # Add filled point hash code.
         self._hash ^= zobrist.HASH_CODE[point, player]
-# end::apply_zobrist[]
+    # end::apply_zobrist[]
 
         # 2. Reduce liberties of any adjacent strings of the opposite
         #    color.
@@ -249,10 +249,10 @@ class Board():
         copied._hash = self._hash
         return copied
 
-# tag::return_zobrist[]
+    # tag::return_zobrist[]
     def zobrist_hash(self):
         return self._hash
-# end::return_zobrist[]
+    # end::return_zobrist[]
 
 
 class Move():
@@ -368,12 +368,17 @@ class GameState():
             return False
         if self.last_move.is_resign:
             return True
+        # self.previous_state is None인 케이스가 있네? 뭐지? fix error
+        if self.previous_state is None:
+            return False
         second_last_move = self.previous_state.last_move
         if second_last_move is None:
             return False
         return self.last_move.is_pass and second_last_move.is_pass
 
     def legal_moves(self):
+        if self.is_over():
+            return []
         moves = []
         for row in range(1, self.board.num_rows + 1):
             for col in range(1, self.board.num_cols + 1):

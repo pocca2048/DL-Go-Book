@@ -3,6 +3,7 @@ import gzip
 import multiprocessing
 import os
 import os.path
+import pdb
 import shutil
 import tarfile
 from os import sys
@@ -164,7 +165,15 @@ class GoDataProcessor:
                     row, col = move
                     go_board.place_stone(Player.black, Point(row + 1, col + 1))  # black gets handicap
             first_move_done = True
-            game_state = GameState(go_board, Player.white, None, move)
+            try: # fix error when move is not None
+                if move is not None:
+                    row, col = move
+                    game_state = GameState(go_board, Player.white, None, Move(Point(row + 1, col + 1)))
+                else:
+                    game_state = GameState(go_board, Player.white, None, None)
+            except:
+                print(move)
+                pdb.set_trace()
         return game_state, first_move_done
 
     def map_to_workers(self, data_type, samples):

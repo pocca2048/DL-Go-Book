@@ -1,4 +1,4 @@
-from dlgo.goboard import GameState, Move
+from dlgo.goboard_fast import GameState, Move
 
 class Agent:
     def __init__(self) -> None:

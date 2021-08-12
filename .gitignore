@@ -4,4 +4,5 @@ __pycache__
 *.npy
 *.tar
 *.hdf5
+*.h5
 git_howto.txt

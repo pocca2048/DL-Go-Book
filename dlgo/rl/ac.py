@@ -4,7 +4,8 @@ from keras.optimizer_v1 import SGD
 
 from .experience import ExperienceCollector
 
-from .. import encoders, goboard, kerasutil
+from .. import encoders, kerasutil
+from .. import goboard_fast as goboard
 from ..agent import Agent
 from ..agent.helpers import is_point_an_eye
 

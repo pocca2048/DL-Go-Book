@@ -1,4 +1,4 @@
-from dlgo import goboard
+from dlgo import goboard_fast as goboard
 from dlgo.agent.base import Agent
 from dlgo import scoring
 

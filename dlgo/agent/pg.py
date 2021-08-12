@@ -69,7 +69,7 @@ class PolicyAgent(Agent):
         # No legal, non-self-destructive moves less.
         return goboard.Move.pass_turn()
 
-    def train(self, experience, lr, clipnorm, batch_size):
+    def train(self, experience, lr=1e-7, clipnorm=1.0, batch_size=512):
         self._model.compile(
             loss='categorical_crossentropy',
             optimizer=SGD(lr=lr, clipnorm=clipnorm))
