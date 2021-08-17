@@ -1,7 +1,7 @@
 import random
 from dlgo.agent.base import Agent
 from dlgo.agent.helpers import is_point_an_eye
-from dlgo.goboard_slow import Move
+from dlgo.goboard_fast import Move
 from dlgo.gotypes import Point
 
 class RandomBot(Agent):
@@ -16,4 +16,7 @@ class RandomBot(Agent):
         if not candidates:
             return Move.pass_turn()
         return Move.play(random.choice(candidates))
+    
+    def reflect_move(self, move: Move) -> None:
+        pass
         

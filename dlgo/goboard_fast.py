@@ -1,4 +1,5 @@
 import copy
+import pdb
 from dlgo.gotypes import Player, Point
 from dlgo.scoring import compute_game_result
 from dlgo import zobrist
@@ -377,8 +378,8 @@ class GameState():
         return self.last_move.is_pass and second_last_move.is_pass
 
     def legal_moves(self):
-        if self.is_over():
-            return []
+        # if self.is_over():
+        #     return []
         moves = []
         for row in range(1, self.board.num_rows + 1):
             for col in range(1, self.board.num_cols + 1):

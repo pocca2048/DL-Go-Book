@@ -57,4 +57,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # # python alphago_policy_sl.py
+    # python alphago_policy_sl.py

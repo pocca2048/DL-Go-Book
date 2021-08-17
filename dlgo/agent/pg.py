@@ -33,6 +33,11 @@ class PolicyAgent(Agent):
         h5file.create_group('model')
         kerasutil.save_model_to_hdf5_group(self._model, h5file['model'])
 
+    def predict(self, game_state: goboard.GameState):
+        encoded_state = self._encoder.encode(game_state)
+        input_tensor = np.array([encoded_state])
+        return self._model.predict(input_tensor)[0]
+
     def select_move(self, game_state):
         num_moves = self._encoder.board_width * self._encoder.board_height
 

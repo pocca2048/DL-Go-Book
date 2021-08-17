@@ -6,3 +6,6 @@ class Agent:
 
     def select_move(self, game_state: GameState) -> Move:
         raise NotImplementedError()
+    
+    def reflect_move(self, move: Move) -> None:
+        pass

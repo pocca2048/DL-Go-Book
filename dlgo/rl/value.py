@@ -3,7 +3,7 @@ import numpy as np
 from keras.optimizer_v1 import SGD
 
 from dlgo import encoders
-from dlgo import goboard
+from dlgo import goboard_fast as goboard
 from dlgo import kerasutil
 from dlgo.agent import Agent
 from dlgo.agent.helpers import is_point_an_eye
@@ -34,6 +34,11 @@ class ValueAgent(Agent):
         if policy not in ('eps-greedy', 'weighted'):
             raise ValueError(policy)
         self.policy = policy
+
+    def predict(self, game_state: goboard.GameState):
+        encoded_state = self.encoder.encode(game_state)
+        input_tensor = np.array([encoded_state])
+        return self.model.predict(input_tensor)[0]
 
     def select_move(self, game_state):
 
