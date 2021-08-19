@@ -5,7 +5,6 @@
 7 plane: 패가 발생해서 움직이지 못하는 돌
 """
 import numpy as np
-from numpy import lib
 
 from dlgo.encoders.base import Encoder
 from dlgo.goboard import Move, Point, GameState

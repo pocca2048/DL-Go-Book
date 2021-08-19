@@ -34,7 +34,7 @@ def avg(items):
     return sum(items) / float(len(items))
 
 
-def print_board(board):
+def print_board(board, BOARD_SIZE=BOARD_SIZE):
     for row in range(BOARD_SIZE, 0, -1):
         line = []
         for col in range(1, BOARD_SIZE + 1):
